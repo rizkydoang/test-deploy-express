@@ -6,8 +6,7 @@ const PORT = 3000;
 app.set('view engine', 'ejs')
 
 app.get('/', (req: Request, res: Response) => {
-    res.send('Hello World!')
-    // res.render("../home.ejs", { message: "existsMessage" });
+    res.render("../test.ejs", { message: "existsMessage" });
 });
 
 app.listen(PORT, () => {
