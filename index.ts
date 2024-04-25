@@ -5,7 +5,7 @@ const app: Express = express();
 const PORT = 3000;
 
 // app.set('view engine', 'ejs')
-app.use(express.static('public'))
+app.use(express.static(path.join(__dirname,"public")))
 app.use(express.json())
 
 app.get('/', (req: Request, res: Response) => {
