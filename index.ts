@@ -1,12 +1,16 @@
 import express, { Express, Request, Response } from "express";
+import * as path from "path"
 
 const app: Express = express();
 const PORT = 3000;
 
-app.set('view engine', 'ejs')
+// app.set('view engine', 'ejs')
+app.use(express.static('assets'))
+app.use(express.json())
 
 app.get('/', (req: Request, res: Response) => {
-    res.render("../test.ejs", { message: "existsMessage" });
+    // res.render("../test.ejs", { message: "existsMessage" });
+    res.sendFile(path.join(__dirname,'./index.html'));
 });
 
 app.listen(PORT, () => {
