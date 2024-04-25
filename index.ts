@@ -5,6 +5,7 @@ const app: Express = express();
 const PORT = 3000;
 
 // app.set('view engine', 'ejs')
+app.use(express.static('assets'))
 app.use(express.json())
 
 app.get('/', (req: Request, res: Response) => {
