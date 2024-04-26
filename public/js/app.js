@@ -533,13 +533,6 @@ const comment = (() => {
         let nama = formNama.value;
         let hadir = parseInt(formKehadiran.value);
         let komentar = formPesan.value;
-        // let token = localStorage.getItem('token') ?? '';
-
-        // if (token.length == 0) {
-        //     alert('Terdapat kesalahan, token kosong !');
-        //     window.location.reload();
-        //     return;
-        // }
 
         if (nama.length == 0) {
             alert('nama tidak boleh kosong');
@@ -577,19 +570,13 @@ const comment = (() => {
                 isPresent: hadir == 1,
             })
             .then((res) => {
-                console.log(res)
-                if (res.code == 201) {
-                    console.log(res)
-                    // owns.set(res.data.uuid, res.data.own);
+                if (res) {
                     isSuccess = true;
                 }
             })
 
-        if (isSuccess) {
-            await pagination.reset();
-            document.getElementById('daftar-ucapan').scrollIntoView({ behavior: 'smooth' });
-            resetForm();
-        }
+        document.getElementById('daftar-ucapan').scrollIntoView({ block: "end", inline: "nearest" });
+        await comment.ucapan();
 
         buttonKirim.disabled = false;
         buttonKirim.innerHTML = tmp;
@@ -696,6 +683,25 @@ const comment = (() => {
 //         return result;
 //     };
 
+    const formatRelativeTime = (date) => {
+        const now = new Date();
+        const createdAt = new Date(date);
+        const diffInMilliseconds = now - createdAt;
+
+        if (diffInMilliseconds < 60 * 1000) {
+            return "Baru saja"; // Less than a minute ago
+        } else if (diffInMilliseconds < 60 * 60 * 1000) {
+            const minutesAgo = Math.floor(diffInMilliseconds / (60 * 1000));
+            return `${minutesAgo} Menit yang lalu`; // X minutes ago
+        } else if (diffInMilliseconds < 24 * 60 * 60 * 1000) {
+            const hoursAgo = Math.floor(diffInMilliseconds / (60 * 60 * 1000));
+            return `${hoursAgo} Jam yang lalu`; // X hours ago
+        } else {
+            const daysAgo = Math.floor(diffInMilliseconds / (24 * 60 * 60 * 1000));
+            return `${daysAgo} Hari yang lalu`; // X days ago
+        }
+    }
+
     const renderCard = (data) => {
         const DIV = document.createElement('div');
         DIV.classList.add('mb-3');
@@ -705,7 +711,7 @@ const comment = (() => {
                 <p class="text-dark text-truncate m-0 p-0" style="font-size: 0.95rem;">
                     <strong class="me-1">${util.escapeHtml(data.name)}</strong><i class="fa-solid ${data.isPresent ? 'fa-circle-check text-success' : 'fa-circle-xmark text-danger'}"></i>
                 </p>
-                <small class="text-dark m-0 p-0" style="font-size: 0.75rem;">${data.createdAt}</small>
+                <small class="text-dark m-0 p-0" style="font-size: 0.75rem;">${formatRelativeTime(data.createdAt)}</small>
             </div>
             <hr class="text-dark my-1">
             <p class="text-dark mt-0 mb-1 mx-0 p-0" style="white-space: pre-line">${convertMarkdownToHTML(util.escapeHtml(data.comment))}</p>
@@ -1012,12 +1018,7 @@ const comment = (() => {
 const getParams = new URLSearchParams(window.location.search);
 const guestParam = getParams.get('to')
 
-// get tag html with id
-let guestName = document.getElementById("guestName").innerHTML;
-
+// set into guest name inner html
 if (guestParam) {
     document.getElementById("guestName").innerHTML = guestParam;
-    console.log(guestParam);
 }
-
-console.log(guestName)
