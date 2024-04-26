@@ -1,5 +1,3 @@
-// const axios = require('axios');
-
 const storage = (table) => {
 
     if (!localStorage.getItem(table)) {
@@ -487,9 +485,9 @@ const pagination = (() => {
 // })();
 
 const comment = (() => {
-    const buttonBatal = document.getElementById('batal');
-    const buttonBalas = document.getElementById('balas');
-    const buttonUbah = document.getElementById('ubah');
+    // const buttonBatal = document.getElementById('batal');
+    // const buttonBalas = document.getElementById('balas');
+    // const buttonUbah = document.getElementById('ubah');
     const buttonKirim = document.getElementById('kirim');
 
     const formKehadiran = document.getElementById('form-kehadiran');
@@ -501,7 +499,7 @@ const comment = (() => {
 
     const loader = `<span class="spinner-border spinner-border-sm me-1"></span>Loading...`;
 
-    let temporaryID = null;
+    // let temporaryID = null;
 
     const convertMarkdownToHTML = (input) => {
         return input
@@ -1009,3 +1007,17 @@ const comment = (() => {
         kirim,
     };
 })();
+
+// get value in param
+const getParams = new URLSearchParams(window.location.search);
+const guestParam = getParams.get('to')
+
+// get tag html with id
+let guestName = document.getElementById("guestName").innerHTML;
+
+if (guestParam) {
+    document.getElementById("guestName").innerHTML = guestParam;
+    console.log(guestParam);
+}
+
+console.log(guestName)
